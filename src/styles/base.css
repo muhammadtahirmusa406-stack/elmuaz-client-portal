@@ -1,0 +1,246 @@
+/* ============================================================
+   LIQUID GLASS DESIGN SYSTEM — Base Styles
+   ============================================================
+   Global resets, background, and foundational styling.
+   ============================================================ */
+
+@import url('./design-tokens.css');
+
+/* ----------------------------------------------------------
+   RESET & BOX MODEL
+   ---------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  font-weight: var(--weight-normal);
+  line-height: var(--leading-normal);
+  letter-spacing: var(--tracking-normal);
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ----------------------------------------------------------
+   AMBIENT BACKGROUND
+   Soft gradient + blurred ambient shapes behind glass.
+   ---------------------------------------------------------- */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background:
+    radial-gradient(
+      ellipse 80% 60% at 20% 10%,
+      rgba(59, 130, 246, 0.05) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 60% 50% at 80% 30%,
+      rgba(168, 85, 247, 0.04) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse 70% 70% at 50% 90%,
+      rgba(34, 197, 94, 0.03) 0%,
+      transparent 50%
+    ),
+    linear-gradient(
+      180deg,
+      var(--color-off-white) 0%,
+      var(--color-white) 40%,
+      var(--color-off-white) 100%
+    );
+  pointer-events: none;
+}
+
+/* Floating ambient light orbs (soft blurred shapes) */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(
+      circle 300px at 15% 25%,
+      rgba(59, 130, 246, 0.06) 0%,
+      transparent 100%
+    ),
+    radial-gradient(
+      circle 250px at 75% 15%,
+      rgba(168, 85, 247, 0.04) 0%,
+      transparent 100%
+    ),
+    radial-gradient(
+      circle 350px at 60% 80%,
+      rgba(34, 197, 94, 0.04) 0%,
+      transparent 100%
+    );
+  filter: blur(60px);
+  pointer-events: none;
+}
+
+/* ----------------------------------------------------------
+   TYPOGRAPHY BASE
+   ---------------------------------------------------------- */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: var(--weight-semibold);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-text-primary);
+}
+
+h1 {
+  font-size: var(--text-4xl);
+  font-weight: var(--weight-bold);
+}
+
+h2 {
+  font-size: var(--text-3xl);
+  font-weight: var(--weight-bold);
+}
+
+h3 {
+  font-size: var(--text-2xl);
+}
+
+h4 {
+  font-size: var(--text-xl);
+}
+
+h5 {
+  font-size: var(--text-lg);
+}
+
+h6 {
+  font-size: var(--text-md);
+  font-weight: var(--weight-medium);
+}
+
+p {
+  line-height: var(--leading-relaxed);
+  color: var(--color-text-secondary);
+}
+
+small {
+  font-size: var(--text-sm);
+  color: var(--color-text-tertiary);
+}
+
+a {
+  color: var(--color-text-link);
+  text-decoration: none;
+  transition: var(--transition-colors);
+}
+
+a:hover {
+  color: var(--color-accent-hover);
+}
+
+code, pre {
+  font-family: var(--font-code);
+  font-size: var(--text-sm);
+}
+
+/* ----------------------------------------------------------
+   SELECTION
+   ---------------------------------------------------------- */
+::selection {
+  background-color: var(--color-accent-soft);
+  color: var(--color-text-primary);
+}
+
+/* ----------------------------------------------------------
+   SCROLLBAR (WebKit)
+   ---------------------------------------------------------- */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-glass-dark-12);
+  border-radius: var(--radius-pill);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-glass-dark-20);
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-glass-dark-12) transparent;
+}
+
+/* ----------------------------------------------------------
+   FOCUS STYLES (Accessible + Polished)
+   ---------------------------------------------------------- */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-xs);
+}
+
+/* ----------------------------------------------------------
+   IMAGE & MEDIA
+   ---------------------------------------------------------- */
+img, video, svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* ----------------------------------------------------------
+   LIST RESET (opt-in via class)
+   ---------------------------------------------------------- */
+.list-reset {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* ----------------------------------------------------------
+   UTILITY: Screen reader only
+   ---------------------------------------------------------- */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* ----------------------------------------------------------
+   BRAND SELECTION
+   ---------------------------------------------------------- */
+::selection {
+  background-color: var(--color-brand-orange);
+  color: var(--color-white);
+}

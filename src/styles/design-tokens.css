@@ -1,0 +1,365 @@
+/* ============================================================
+   LIQUID GLASS DESIGN SYSTEM — Design Tokens
+   ============================================================
+   Global variables defining the visual language.
+   Every component MUST reference these tokens.
+   Never hard-code raw values in component styles.
+   ============================================================ */
+
+:root {
+  /* ----------------------------------------------------------
+     ELMUAZ TECH BRAND IDENTITY (https://www.elmuaztech.com.ng/)
+     ---------------------------------------------------------- */
+  --color-brand-orange: #f97316;
+  --color-brand-orange-hover: #ea580c;
+  --color-brand-orange-active: #c2410c;
+  --color-brand-orange-soft: rgba(249, 115, 22, 0.12);
+  --color-brand-orange-glass: rgba(249, 115, 22, 0.08);
+  --color-brand-navy: #0b132b;
+  --color-brand-navy-surface: #111d38;
+  --color-brand-emerald: #10b981;
+  --color-brand-emerald-soft: rgba(16, 185, 129, 0.12);
+  --color-brand-whatsapp: #25d366;
+
+  /* ----------------------------------------------------------
+     COLORS — Core Palette
+     ---------------------------------------------------------- */
+  --color-white: #ffffff;
+  --color-off-white: #f8f9fa;
+  --color-soft-gray: #e9ecef;
+  --color-mid-gray: #ced4da;
+  --color-neutral-gray: #adb5bd;
+  --color-dark-gray: #495057;
+  --color-near-black: #1d1d1f;
+
+  /* Transparent whites (for glass surfaces) */
+  --color-glass-white-5: rgba(255, 255, 255, 0.05);
+  --color-glass-white-8: rgba(255, 255, 255, 0.08);
+  --color-glass-white-12: rgba(255, 255, 255, 0.12);
+  --color-glass-white-20: rgba(255, 255, 255, 0.20);
+  --color-glass-white-30: rgba(255, 255, 255, 0.30);
+  --color-glass-white-45: rgba(255, 255, 255, 0.45);
+  --color-glass-white-60: rgba(255, 255, 255, 0.60);
+  --color-glass-white-75: rgba(255, 255, 255, 0.75);
+  --color-glass-white-90: rgba(255, 255, 255, 0.90);
+
+  /* Transparent darks (for subtle overlays) */
+  --color-glass-dark-3: rgba(0, 0, 0, 0.03);
+  --color-glass-dark-5: rgba(0, 0, 0, 0.05);
+  --color-glass-dark-8: rgba(0, 0, 0, 0.08);
+  --color-glass-dark-12: rgba(0, 0, 0, 0.12);
+  --color-glass-dark-20: rgba(0, 0, 0, 0.20);
+
+  /* Brand accent — used sparingly */
+  --color-accent: var(--color-brand-orange);
+  --color-accent-hover: var(--color-brand-orange-hover);
+  --color-accent-active: var(--color-brand-orange-active);
+  --color-accent-soft: var(--color-brand-orange-soft);
+  --color-accent-glass: var(--color-brand-orange-glass);
+
+  /* Semantic colors */
+  --color-success: #22c55e;
+  --color-success-soft: rgba(34, 197, 94, 0.12);
+  --color-warning: #f59e0b;
+  --color-warning-soft: rgba(245, 158, 11, 0.12);
+  --color-error: #ef4444;
+  --color-error-soft: rgba(239, 68, 68, 0.12);
+  --color-info: #3b82f6;
+  --color-info-soft: rgba(59, 130, 246, 0.12);
+
+  /* Typography Colors (Design System Tokens) */
+  --text-color-primary: #1d1d1f;
+  --text-color-secondary: #86868b;
+  --color-text-primary: var(--text-color-primary);
+  --color-text-secondary: var(--text-color-secondary);
+  --color-text-tertiary: var(--color-neutral-gray);
+  --color-text-on-accent: var(--color-white);
+  --color-text-link: var(--color-accent);
+
+  /* Backgrounds */
+  --color-bg-primary: var(--color-white);
+  --color-bg-secondary: var(--color-off-white);
+  --color-bg-subtle: var(--color-soft-gray);
+
+  /* ----------------------------------------------------------
+     GLASS — Surface Definitions
+     ---------------------------------------------------------- */
+  /* Glass Backgrounds */
+  --glass-bg-primary: rgba(255, 255, 255, 0.6);
+  --glass-bg-secondary: rgba(255, 255, 255, 0.4);
+  --glass-bg-ultra: rgba(255, 255, 255, 0.8);
+  --glass-bg-thin: rgba(255, 255, 255, 0.2);
+
+  /* Light glass aliases */
+  --glass-bg: var(--glass-bg-primary);
+  --glass-bg-hover: rgba(255, 255, 255, 0.75);
+  --glass-bg-active: rgba(255, 255, 255, 0.90);
+
+  /* Frosted glass (heavier — for modals, overlays) */
+  --glass-bg-frosted: var(--glass-bg-ultra);
+  --glass-bg-frosted-hover: rgba(255, 255, 255, 0.90);
+
+  /* Thin glass */
+  --glass-bg-thin-hover: rgba(255, 255, 255, 0.35);
+
+  /* ----------------------------------------------------------
+     BLUR — Backdrop Filters
+     ---------------------------------------------------------- */
+  /* Blur Levels */
+  --glass-blur-default: 20px;
+  --glass-blur-heavy: 40px;
+  --glass-blur-thin: 10px;
+
+  --blur-none: blur(0px);
+  --blur-xs: blur(4px);
+  --blur-sm: blur(var(--glass-blur-thin));
+  --blur-md: blur(var(--glass-blur-default));
+  --blur-lg: blur(24px);
+  --blur-xl: blur(var(--glass-blur-heavy));
+  --blur-2xl: blur(64px);
+
+  /* Saturate boost for glass (makes colors behind glass richer) */
+  --glass-saturate: saturate(1.8);
+
+  /* Combined backdrop filters */
+  --glass-backdrop: var(--blur-md) var(--glass-saturate);
+  --glass-backdrop-heavy: var(--blur-xl) var(--glass-saturate);
+  --glass-backdrop-light: var(--blur-sm) var(--glass-saturate);
+
+  /* ----------------------------------------------------------
+     BORDERS — Subtle Glass Edges
+     ---------------------------------------------------------- */
+  /* Border Opacity */
+  --glass-border-opacity: 0.18;
+  --glass-border-light: rgba(255, 255, 255, 0.3);
+
+  --border-glass: 1px solid var(--glass-border-light);
+  --border-glass-strong: 1px solid rgba(255, 255, 255, 0.45);
+  --border-glass-subtle: 1px solid rgba(255, 255, 255, var(--glass-border-opacity));
+  --border-input: 1px solid var(--color-glass-dark-8);
+  --border-input-focus: 1px solid var(--color-accent);
+  --border-divider: 1px solid var(--color-glass-dark-5);
+
+  /* ----------------------------------------------------------
+     SHADOWS — Soft, Diffused Depth
+     ---------------------------------------------------------- */
+  /* Shadows */
+  --shadow-soft: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+  --shadow-glass: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04),
+               0 1px 2px rgba(0, 0, 0, 0.03);
+  --shadow-md: var(--shadow-soft);
+  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.08),
+               0 4px 8px rgba(0, 0, 0, 0.04);
+  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.10),
+               0 8px 16px rgba(0, 0, 0, 0.05);
+  --shadow-2xl: 0 24px 64px rgba(0, 0, 0, 0.12),
+                 0 12px 24px rgba(0, 0, 0, 0.06);
+
+  /* Glass-specific inner highlight */
+  --shadow-glass-inset: inset 0 1px 0 var(--color-glass-white-20),
+                        inset 0 0 0 0.5px var(--color-glass-white-8);
+  --shadow-glass-edge: inset 0 0.5px 0 var(--color-glass-white-30);
+
+  /* Composite glass shadow */
+  --shadow-glass-elevated: var(--shadow-lg), var(--shadow-glass-inset);
+  --shadow-glass-floating: var(--shadow-xl), var(--shadow-glass-inset);
+
+  /* ----------------------------------------------------------
+     BORDER RADIUS — Smooth Rounded Corners
+     ---------------------------------------------------------- */
+  /* Radius */
+  --radius-card: 24px;
+  --radius-panel: 32px;
+  --radius-button: 16px;
+
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: var(--radius-card);
+  --radius-2xl: 28px;
+  --radius-3xl: var(--radius-panel);
+  --radius-pill: 9999px;
+
+  /* Semantic radius */
+  --radius-button-pill: var(--radius-pill);
+  --radius-input: var(--radius-sm);
+  --radius-modal: var(--radius-panel);
+  --radius-badge: var(--radius-pill);
+  --radius-tooltip: var(--radius-sm);
+
+  /* ----------------------------------------------------------
+     SPACING — Generous Whitespace
+     ---------------------------------------------------------- */
+  /* Spacing */
+  --spacing-xs: 8px;
+  --spacing-sm: 16px;
+  --spacing-md: 24px;
+  --spacing-lg: 32px;
+  --spacing-xl: 48px;
+
+  --space-0: 0;
+  --space-1: 4px;
+  --space-2: var(--spacing-xs);
+  --space-3: 12px;
+  --space-4: var(--spacing-sm);
+  --space-5: 20px;
+  --space-6: var(--spacing-md);
+  --space-7: 28px;
+  --space-8: var(--spacing-lg);
+  --space-10: 40px;
+  --space-12: var(--spacing-xl);
+  --space-14: 56px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+
+  /* Semantic spacing */
+  --padding-card: var(--space-8);
+  --padding-panel: var(--space-10);
+  --padding-modal: var(--space-10);
+  --padding-section: var(--space-16);
+  --padding-page: var(--space-12);
+  --padding-button-x: var(--space-6);
+  --padding-button-y: var(--space-3);
+  --padding-input-x: var(--space-4);
+  --padding-input-y: var(--space-3);
+  --gap-card-grid: var(--space-6);
+  --gap-form: var(--space-5);
+  --gap-section: var(--space-12);
+
+  /* ----------------------------------------------------------
+     TYPOGRAPHY — Clean, Hierarchical
+     ---------------------------------------------------------- */
+  /* Typography */
+  --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-sans: var(--font-family);
+  --font-brand: 'Poppins', var(--font-family);
+  --font-mono: "SF Mono", "Fira Code", "Cascadia Code",
+               "JetBrains Mono", Consolas, monospace;
+
+  /* Font sizes */
+  --text-xs: 0.75rem;    /* 12px */
+  --text-sm: 0.8125rem;  /* 13px */
+  --text-base: 0.9375rem;/* 15px */
+  --text-md: 1rem;       /* 16px */
+  --text-lg: 1.125rem;   /* 18px */
+  --text-xl: 1.25rem;    /* 20px */
+  --text-2xl: 1.5rem;    /* 24px */
+  --text-3xl: 1.875rem;  /* 30px */
+  --text-4xl: 2.25rem;   /* 36px */
+  --text-5xl: 3rem;      /* 48px */
+
+  /* Font weights */
+  --weight-normal: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  /* Line heights */
+  --leading-tight: 1.2;
+  --leading-snug: 1.35;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.65;
+
+  /* Letter spacing */
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.01em;
+
+  /* Semantic typography */
+  --font-heading: var(--font-sans);
+  --font-body: var(--font-sans);
+  --font-code: var(--font-mono);
+
+  /* ----------------------------------------------------------
+     TRANSITIONS — Smooth, Short Interactions
+     ---------------------------------------------------------- */
+  /* Transitions */
+  --transition-fast: 0.2s ease;
+  --transition-slow: 0.35s cubic-bezier(0.25, 1, 0.33, 1);
+
+  --ease-default: cubic-bezier(0.25, 1, 0.33, 1);
+  --ease-in-out: cubic-bezier(0.42, 0, 0.58, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  --duration-fast: 120ms;
+  --duration-base: var(--transition-fast);
+  --duration-slow: var(--transition-slow);
+  --duration-slower: 400ms;
+
+  --transition-colors: color var(--transition-fast),
+                       background-color var(--transition-fast),
+                       border-color var(--transition-fast);
+  --transition-opacity: opacity var(--transition-fast);
+  --transition-transform: transform var(--transition-fast) var(--ease-out);
+  --transition-shadow: box-shadow var(--transition-fast) var(--ease-default);
+  --transition-all: all var(--transition-fast) var(--ease-default);
+  --transition-glass: background-color var(--transition-fast) var(--ease-default),
+                      backdrop-filter var(--transition-slow) var(--ease-default),
+                      box-shadow var(--transition-fast) var(--ease-default);
+
+  /* ----------------------------------------------------------
+     Z-INDEX — Layering Scale
+     ---------------------------------------------------------- */
+  --z-base: 0;
+  --z-raised: 10;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-overlay: 300;
+  --z-modal: 400;
+  --z-popover: 500;
+  --z-toast: 600;
+  --z-tooltip: 700;
+
+  /* ----------------------------------------------------------
+     LAYOUT
+     ---------------------------------------------------------- */
+  --max-width-content: 1200px;
+  --max-width-narrow: 720px;
+  --max-width-wide: 1440px;
+  --sidebar-width: 280px;
+  --nav-height: 64px;
+}
+
+/* ============================================================
+   RESPONSIVE BREAKPOINT ADJUSTMENTS
+   ============================================================ */
+
+/* Tablet */
+@media (max-width: 1024px) {
+  :root {
+    --padding-card: var(--space-6);
+    --padding-panel: var(--space-8);
+    --padding-page: var(--space-8);
+    --padding-section: var(--space-12);
+    --gap-card-grid: var(--space-5);
+    --sidebar-width: 240px;
+    --nav-height: 56px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+  :root {
+    --padding-card: var(--space-5);
+    --padding-panel: var(--space-6);
+    --padding-page: var(--space-4);
+    --padding-section: var(--space-8);
+    --padding-modal: var(--space-6);
+    --gap-card-grid: var(--space-4);
+    --gap-section: var(--space-8);
+    --radius-card: var(--radius-lg);
+    --radius-panel: var(--radius-xl);
+    --radius-modal: var(--radius-xl);
+    --nav-height: 52px;
+
+    --text-5xl: 2.25rem;
+    --text-4xl: 1.875rem;
+    --text-3xl: 1.5rem;
+  }
+}

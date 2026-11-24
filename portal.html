@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ELMUAZ TECHNOLOGIES LTD — Internal Management Portal</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Liquid Glass Design System Core & Portal Styles -->
+  <link rel="stylesheet" href="src/styles/main.css">
+  <link rel="stylesheet" href="src/styles/portal.css">
+</head>
+<body>
+
+  <!-- ============================================================
+       AMBIENT BACKGROUND LIGHTING (Liquid Glass Foundation)
+       ============================================================ -->
+  <div class="portal-ambient-orbs">
+    <div class="ambient-orb ambient-orb-1"></div>
+    <div class="ambient-orb ambient-orb-2"></div>
+    <div class="ambient-orb ambient-orb-3"></div>
+  </div>
+
+  <div class="portal-app" id="app">
+
+    <!-- ============================================================
+         AUTHENTICATION GATEWAY SCREEN (Discreet Staff Login)
+         ============================================================ -->
+    <div class="auth-gateway-container" id="authGatewayScreen" style="display: flex;">
+      <div class="auth-glass-panel">
+        <div class="auth-header">
+          <div class="auth-brand-logo">
+            <svg width="48" height="48" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="100" height="100" rx="24" fill="#0B132B"/>
+              <!-- Stylized Ribbon E -->
+              <path d="M22 28C22 23.5817 25.5817 20 30 20H72C76.4183 20 80 23.5817 80 28V36C80 40.4183 76.4183 44 72 44H42V56H68C72.4183 56 76 59.5817 76 64V72C76 76.4183 72.4183 80 68 80H30C25.5817 80 22 76.4183 22 72V28Z" fill="url(#loginBrandGrad)"/>
+              <defs>
+                <linearGradient id="loginBrandGrad" x1="22" y1="20" x2="80" y2="80" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#38BDF8"/>
+                  <stop offset="0.45" stop-color="#0284C7"/>
+                  <stop offset="0.5" stop-color="#F97316"/>
+                  <stop offset="1" stop-color="#EA580C"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+          <h2 class="auth-title">ELMUAZ TECHNOLOGIES LTD</h2>
+          <div class="auth-subtitle">Internal Company Management System • Secure Staff Portal</div>
+        </div>
+
+        <div class="auth-error-banner" id="authErrorBanner">
+          Invalid email or passkey. Please select a demo profile or verify credentials.
+        </div>
+
+        <!-- Auth Mode Switcher (Sign In vs Sign Up) -->
+        <div class="auth-tab-group">
+          <button type="button" class="auth-tab-btn active" id="tabModeSignIn" onclick="switchAuthMode('login')">Staff Sign In</button>
+          <button type="button" class="auth-tab-btn" id="tabModeSignUp" onclick="switchAuthMode('signup')">Request Sign Up</button>
+        </div>
+
+        <!-- Google Workspace OAuth Button -->
+        <button type="button" class="btn-google" onclick="openGooglePickerModal()">
+          <svg width="18" height="18" viewBox="0 0 24 24">
+            <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"/>
+            <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"/>
+            <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 10.03 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/>
+            <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+          </svg>
+          Continue with Google Workspace
+        </button>
+
+        <div class="auth-divider">or authenticate with staff passkey</div>
+
+        <!-- 1. SIGN IN FORM GROUP -->
+        <div id="loginFormGroup">
+          <!-- Quick One-Click Demo Role Presets -->
+          <div style="margin-bottom: var(--spacing-sm);">
+            <div style="font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-color-secondary); margin-bottom: 6px;">
+              Select Access Profile (Demo Roles)
+            </div>
+            <div class="role-preset-grid">
+              <div class="role-preset-card active" id="preset-ceo" onclick="selectRolePreset('ceo')">
+                <div class="role-preset-title">👑 CEO / Admin</div>
+                <div class="role-preset-desc">Full Executive Suite</div>
+              </div>
+              <div class="role-preset-card" id="preset-department_head" onclick="selectRolePreset('department_head')">
+                <div class="role-preset-title">💼 Dept Head</div>
+                <div class="role-preset-desc">Engineering Reviewer</div>
+              </div>
+              <div class="role-preset-card" id="preset-employee" onclick="selectRolePreset('employee')">
+                <div class="role-preset-title">👨‍💻 Employee</div>
+                <div class="role-preset-desc">Software Engineer</div>
+              </div>
+              <div class="role-preset-card" id="preset-accountant" onclick="selectRolePreset('accountant')">
+                <div class="role-preset-title">💰 Finance</div>
+                <div class="role-preset-desc">Accountant & Paystack</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Credentials Form -->
+          <form id="loginForm" onsubmit="handleLoginSubmit(event)">
+            <div class="stack stack-sm">
+              <div>
+                <label class="label">Work Email / Staff ID</label>
+                <input type="email" id="loginEmail" class="input" placeholder="e.g. staff@elmuaztech.com.ng" value="ceo@elmuaztech.com.ng" required>
+              </div>
+              <div>
+                <div class="row-between" style="margin-bottom: 4px;">
+                  <label class="label" style="margin: 0;">Access Passkey</label>
+                  <a href="#" style="font-size: 11px; color: var(--color-brand-orange); text-decoration: none;" onclick="showToast('Demo passkey: password123'); return false;">Forgot?</a>
+                </div>
+                <input type="password" id="loginPassword" class="input" placeholder="••••••••••••" value="password123" required>
+              </div>
+              <div class="row-between" style="font-size: 12px; margin: 2px 0;">
+                <label style="display: flex; align-items: center; gap: 6px; cursor: pointer; color: var(--text-color-secondary);">
+                  <input type="checkbox" id="rememberMe" checked> Remember session
+                </label>
+                <span style="color: var(--color-brand-emerald); font-size: 11px;">🔒 256-Bit Encrypted</span>
+              </div>
+              <button type="submit" class="btn btn-brand btn-lg" id="loginSubmitBtn" style="width: 100%; justify-content: center; margin-top: 4px;">
+                Enter Workspace →
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- 2. SIGN UP FORM GROUP (Awaiting CEO Approval) -->
+        <div id="signupFormGroup" style="display: none;">
+          <form id="signupForm" onsubmit="handleSignupSubmit(event)">
+            <div class="stack stack-sm">
+              <div>
+                <label class="label">Full Legal Name</label>
+                <input type="text" id="signupName" class="input" placeholder="e.g. Amina Mohammed" required>
+              </div>
+              <div>
+                <label class="label">Official Corporate Email</label>
+                <input type="email" id="signupEmail" class="input" placeholder="e.g. amina@elmuaztech.com.ng" required>
+              </div>
+              <div class="grid grid-2" style="gap: var(--spacing-sm);">
+                <div>
+                  <label class="label">Department</label>
+                  <select id="signupDept" class="select" required>
+                    <option value="Engineering">Engineering</option>
+                    <option value="AI Solutions">AI & Automation</option>
+                    <option value="Finance">Finance & Accounts</option>
+                    <option value="Operations">Operations</option>
+                    <option value="QA & Testing">QA & Testing</option>
+                  </select>
+                </div>
+                <div>
+                  <label class="label">Job Title / Designation</label>
+                  <input type="text" id="signupTitle" class="input" placeholder="e.g. Mobile Developer" required>
+                </div>
+              </div>
+              <div>
+                <label class="label">Create Passkey</label>
+                <input type="password" id="signupPassword" class="input" placeholder="Minimum 8 characters" value="password123" required>
+              </div>
+              <div style="background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.25); padding: 10px 12px; border-radius: 12px; font-size: 11px; color: var(--text-color-secondary);">
+                🛡️ <strong>CEO Executive Clearance Required:</strong> New employee registrations are queued in a pending state and must be approved by Alhaji Mu'azu before portal access is granted.
+              </div>
+              <button type="submit" class="btn btn-brand btn-lg" id="signupSubmitBtn" style="width: 100%; justify-content: center; margin-top: 4px;">
+                Submit for CEO Approval →
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- 3. PENDING APPROVAL SCREEN (Feedback after registration or unapproved login) -->
+        <div id="pendingApprovalGroup" class="approval-pending-state" style="display: none;">
+          <div class="approval-icon-halo">⏳</div>
+          <span class="approval-tag">Executive Review Pending</span>
+          <h3 style="font-family: var(--font-brand); margin-bottom: 6px;">Registration Under Review</h3>
+          <p style="font-size: var(--text-xs); color: var(--text-color-secondary); line-height: 1.5; margin-bottom: var(--spacing-md);">
+            Your request for <strong id="pendingUserEmail" style="color: var(--text-color-primary);">staff@elmuaztech.com.ng</strong> has been submitted to <strong>Alhaji Mu'azu (CEO)</strong> for executive authorization. You will be activated once cleared.
+          </p>
+          <div class="glass-thin" style="padding: 12px; border-radius: 14px; margin-bottom: var(--spacing-md); text-align: left; font-size: 11px;">
+            <div style="color: var(--text-color-secondary); margin-bottom: 2px;">Applicant Name: <strong id="pendingUserName" style="color: var(--text-color-primary);">Staff Member</strong></div>
+            <div style="color: var(--text-color-secondary);">Assigned Role: <strong id="pendingUserDept" style="color: var(--text-color-primary);">Pending Assignment</strong></div>
+          </div>
+          <div class="row" style="gap: 8px; justify-content: center;">
+            <button type="button" class="btn btn-secondary btn-sm btn-pill" onclick="switchAuthMode('login')">← Back to Sign In</button>
+            <button type="button" class="btn btn-brand btn-sm btn-pill" onclick="checkApprovalStatus()">Check Approval Status ↻</button>
+          </div>
+        </div>
+
+        <div style="margin-top: var(--spacing-lg); text-align: center; border-top: 1px solid var(--border-divider); padding-top: var(--spacing-sm); font-size: 11px; color: var(--text-color-secondary);">
+          <div>Connected to <strong>elmuaztech.com.ng</strong> internal subnet.</div>
+          <div style="margin-top: 2px;">Authorized company personnel only. Role isolation enforced by Supabase RBAC.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================
+         PORTAL NAVIGATION BAR (Liquid Glass Surface — Shown when Authenticated)
+         ============================================================ -->
+    <header class="portal-nav" id="portalNav" style="display: none;">
+      <div class="portal-nav-inner">
+        <!-- Brand & Gateway Indicator -->
+        <div class="row" style="gap: var(--spacing-sm);">
+          <a href="#" class="portal-brand" onclick="navigateTo('dashboard'); return false;">
+            <svg width="28" height="28" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="100" height="100" rx="22" fill="#0B132B"/>
+              <!-- Stylized Ribbon E -->
+              <path d="M22 28C22 23.5817 25.5817 20 30 20H72C76.4183 20 80 23.5817 80 28V36C80 40.4183 76.4183 44 72 44H42V56H68C72.4183 56 76 59.5817 76 64V72C76 76.4183 72.4183 80 68 80H30C25.5817 80 22 76.4183 22 72V28Z" fill="url(#navBrandGrad)"/>
+              <defs>
+                <linearGradient id="navBrandGrad" x1="22" y1="20" x2="80" y2="80" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#38BDF8"/>
+                  <stop offset="0.45" stop-color="#0284C7"/>
+                  <stop offset="0.5" stop-color="#F97316"/>
+                  <stop offset="1" stop-color="#EA580C"/>
+                </linearGradient>
+              </defs>
+            </svg>
+            <span>ELMUAZ <span style="font-weight: 400; color: var(--text-color-secondary);">EIMS</span></span>
+          </a>
+          <span class="portal-brand-badge" id="navRoleBadge">Admin Portal</span>
+        </div>
+
+        <!-- Navigation Tabs (Dynamically Partitioned per Role) -->
+        <nav class="portal-tabs" id="navTabs">
+          <button class="portal-tab-btn active" data-tab="dashboard" id="tabBtn-dashboard" onclick="navigateTo('dashboard')">
+            <span>📊</span> <span id="labelTab-dashboard">Dashboard</span>
+          </button>
+          <button class="portal-tab-btn" data-tab="tasks" id="tabBtn-tasks" onclick="navigateTo('tasks')">
+            <span>✅</span> <span id="labelTab-tasks">Tasks & Review</span>
+          </button>
+          <button class="portal-tab-btn" data-tab="projects" id="tabBtn-projects" onclick="navigateTo('projects')">
+            <span>📁</span> <span id="labelTab-projects">Projects</span>
+          </button>
+          <button class="portal-tab-btn" data-tab="meetings" id="tabBtn-meetings" onclick="navigateTo('meetings')">
+            <span>📹</span> <span id="labelTab-meetings">Meetings</span>
+          </button>
+          <button class="portal-tab-btn" data-tab="finance" id="tabBtn-finance" onclick="navigateTo('finance')">
+            <span>💳</span> <span id="labelTab-finance">Finance</span>
+          </button>
+          <button class="portal-tab-btn" data-tab="announcements" id="tabBtn-announcements" onclick="navigateTo('announcements')">
+            <span>📢</span> <span id="labelTab-announcements">Bulletins</span>
+          </button>
+          <button class="portal-tab-btn" data-tab="audit" id="tabBtn-audit" onclick="navigateTo('audit')">
+            <span>📜</span> <span id="labelTab-audit">Audit</span>
+          </button>
+        </nav>
+
+        <!-- Right Side Controls: User Profile Capsule & Sign Out -->
+        <div class="row" style="gap: var(--spacing-sm);">
+          <!-- Notification Bell -->
+          <button class="btn btn-ghost btn-icon btn-pill" style="position: relative;" onclick="toggleNotifDrawer()" title="Notifications">
+            🔔
+            <span id="notifBadge" style="position: absolute; top: 4px; right: 4px; width: 8px; height: 8px; background: var(--color-brand-orange); border-radius: 50%; box-shadow: 0 0 6px var(--color-brand-orange);"></span>
+          </button>
+
+          <!-- Current User Capsule -->
+          <div class="row" style="gap: 8px; background: var(--glass-bg-secondary); padding: 4px 10px 4px 4px; border-radius: var(--radius-pill); border: 1px solid var(--glass-border-light);">
+            <div class="avatar avatar-sm" id="userAvatar" style="background: var(--color-brand-orange-soft); color: var(--color-brand-orange); font-weight: var(--weight-bold); border: 1px solid rgba(249,115,22,0.3);">
+              AM
+            </div>
+            <div style="display: flex; flex-direction: column; text-align: left; line-height: 1.15;">
+              <span style="font-size: 12px; font-weight: var(--weight-semibold); color: var(--text-color-primary);" id="userDisplayName">Alhaji Mu'azu</span>
+              <span style="font-size: 10px; color: var(--text-color-secondary);" id="userDisplayRole">Founder & CEO</span>
+            </div>
+          </div>
+
+          <!-- Sign Out Button -->
+          <button class="btn btn-secondary btn-sm btn-pill" onclick="handleLogout()" title="End Session and Sign Out">
+            🚪 Log Out
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- ============================================================
+         NOTIFICATION DRAWER (Liquid Glass Floating Panel)
+         ============================================================ -->
+    <div class="glass-frosted notif-drawer" id="notifDrawer" style="display: none;">
+      <div class="row-between" style="padding: var(--spacing-sm); border-bottom: 1px solid var(--border-divider);">
+        <h5 style="margin: 0; font-family: var(--font-brand);">Notifications & Alerts</h5>
+        <button class="btn btn-ghost btn-sm" onclick="markAllNotifsRead()">Mark all read</button>
+      </div>
+      <div style="overflow-y: auto; max-height: 400px;" id="notifList">
+        <!-- Rendered by JavaScript -->
+      </div>
+    </div>
+
+    <!-- ============================================================
+         MAIN CONTENT CONTAINER (Dynamic View Rendering)
+         ============================================================ -->
+    <main class="portal-main" id="portalMain" style="display: none;">
+      
+      <!-- ======== 1. DASHBOARD VIEW ======== -->
+      <section id="view-dashboard" class="portal-view active">
+        <!-- Hero Banner -->
+        <div class="glass-frosted portal-hero">
+          <div class="portal-hero-text">
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+              <span class="badge" style="background: var(--color-brand-orange-soft); color: var(--color-brand-orange); font-weight: var(--weight-semibold);">Elmuaz Cloud Portal</span>
+              <span class="badge badge-success" id="roleBadge">CEO / Founder View</span>
+            </div>
+            <h1 id="welcomeHeading">Good day, Alhaji Mu'azu</h1>
+            <p id="welcomeSubtext">Here is your operational overview across departments, project deadlines, and financials.</p>
+          </div>
+          <div class="row" style="gap: var(--spacing-sm); flex-wrap: wrap;">
+            <button class="btn btn-brand btn-pill" onclick="openCreateTaskModal()">+ New Task</button>
+            <button class="btn btn-secondary btn-pill" onclick="openScheduleMeetingModal()">📹 Schedule Meeting</button>
+            <button class="btn btn-secondary btn-pill" id="quickPayBtn" onclick="openPaymentModal()">💳 Quick Payment</button>
+            <button class="btn btn-secondary btn-pill" id="btnOnboardEmployee" onclick="openAddEmployeeModal()" style="display: none;">👤 + Onboard Staff</button>
+          </div>
+        </div>
+
+        <!-- CEO Staff Approvals Hub (Visible for CEO) -->
+        <div id="ceoApprovalsWidget" class="glass-primary" style="display: none; padding: var(--spacing-md); border-radius: var(--radius-card); margin-bottom: var(--spacing-lg);">
+          <div class="row-between" style="margin-bottom: var(--spacing-sm); flex-wrap: wrap; gap: 8px;">
+            <div class="row" style="gap: 8px;">
+              <h4 style="margin: 0; font-family: var(--font-brand);">🛡️ Staff Registrations Awaiting Clearance</h4>
+              <span class="badge badge-brand" id="pendingApprovalsBadge">0 Pending</span>
+            </div>
+            <div style="font-size: 12px; color: var(--text-color-secondary);">CEO Executive Authority • One-click workspace activation</div>
+          </div>
+          <div id="pendingApprovalsList" class="stack stack-xs">
+            <!-- Rendered dynamically by JS -->
+          </div>
+        </div>
+
+        <!-- KPI Metrics Grid -->
+        <div class="stats-grid" id="statsGrid">
+          <div class="glass-primary stat-card">
+            <div class="stat-header">
+              <span class="stat-title">Active Team</span>
+              <div class="stat-icon">👥</div>
+            </div>
+            <div class="stat-value" id="statTeam">18</div>
+            <div class="stat-footer">
+              <span class="stat-badge-trend">↑ 100%</span> Active across 4 departments
+            </div>
+          </div>
+
+          <div class="glass-primary stat-card">
+            <div class="stat-header">
+              <span class="stat-title">Pending Tasks</span>
+              <div class="stat-icon">⚡</div>
+            </div>
+            <div class="stat-value" id="statTasks">7</div>
+            <div class="stat-footer">
+              <span style="color: var(--color-brand-orange); font-weight: 600;">2 Under Review</span> awaiting sign-off
+            </div>
+          </div>
+
+          <div class="glass-primary stat-card">
+            <div class="stat-header">
+              <span class="stat-title">Available Capital</span>
+              <div class="stat-icon">💰</div>
+            </div>
+            <div class="stat-value" id="statFinance">₦4,850,000</div>
+            <div class="stat-footer">
+              <span class="stat-badge-trend">Verified</span> Paystack connected
+            </div>
+          </div>
+
+          <div class="glass-primary stat-card">
+            <div class="stat-header">
+              <span class="stat-title">Upcoming Meetings</span>
+              <div class="stat-icon">📹</div>
+            </div>
+            <div class="stat-value" id="statMeetings">2</div>
+            <div class="stat-footer">
+              <span>Next: Today @ 3:00 PM</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dashboard Two-Column Grid -->
+        <div class="grid grid-2" style="gap: var(--spacing-lg);">
+          <!-- Tasks Awaiting Review -->
+          <div class="glass-primary" style="padding: var(--spacing-md); border-radius: var(--radius-card);">
+            <div class="row-between" style="margin-bottom: var(--spacing-md);">
+              <h4 style="margin: 0; font-family: var(--font-brand);">📋 Priority Task Pipeline</h4>
+              <button class="btn btn-ghost btn-sm" onclick="navigateTo('tasks')">View Kanban →</button>
+            </div>
+            <div id="dashboardTaskList" class="stack stack-sm">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+
+          <!-- Live Meetings & Action Items -->
+          <div class="glass-primary" style="padding: var(--spacing-md); border-radius: var(--radius-card);">
+            <div class="row-between" style="margin-bottom: var(--spacing-md);">
+              <h4 style="margin: 0; font-family: var(--font-brand);">📹 Scheduled Team Briefings</h4>
+              <button class="btn btn-ghost btn-sm" onclick="navigateTo('meetings')">All Meetings →</button>
+            </div>
+            <div id="dashboardMeetingList" class="stack stack-sm">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ======== 2. TASKS & 8-STAGE REVIEW WORKFLOW VIEW ======== -->
+      <section id="view-tasks" class="portal-view" style="display: none;">
+        <div class="row-between" style="margin-bottom: var(--spacing-md); flex-wrap: wrap; gap: var(--spacing-sm);">
+          <div>
+            <h2 style="font-family: var(--font-brand); margin-bottom: 4px;">Task & Work Submission Pipeline</h2>
+            <p style="color: var(--text-color-secondary);">8-Stage Review Protocol: Create → Assign → Work → Submit → Review → Decision → Correction → Close.</p>
+          </div>
+          <div class="row" style="gap: var(--spacing-sm);">
+            <button class="btn btn-brand btn-pill" onclick="openCreateTaskModal()">+ Create Task</button>
+          </div>
+        </div>
+
+        <!-- Filter bar -->
+        <div class="glass-thin row-between" style="padding: var(--spacing-sm) var(--spacing-md); border-radius: var(--radius-card); margin-bottom: var(--spacing-md); flex-wrap: wrap; gap: var(--spacing-sm);">
+          <div class="row" style="gap: var(--spacing-xs);">
+            <button class="btn btn-ghost btn-sm active" onclick="filterTasks('all', this)">All</button>
+            <button class="btn btn-ghost btn-sm" onclick="filterTasks('assigned', this)">Assigned</button>
+            <button class="btn btn-ghost btn-sm" onclick="filterTasks('in_progress', this)">In Progress</button>
+            <button class="btn btn-ghost btn-sm" onclick="filterTasks('submitted', this)">Under Review</button>
+            <button class="btn btn-ghost btn-sm" onclick="filterTasks('completed', this)">Completed</button>
+          </div>
+          <div style="font-size: var(--text-xs); color: var(--text-color-secondary);">
+            Click any task card to inspect deliverables, submit work, or approve.
+          </div>
+        </div>
+
+        <!-- 4-Column Kanban Board in Liquid Glass -->
+        <div class="kanban-grid">
+          <!-- Column 1: Pending & Assigned -->
+          <div class="glass-primary kanban-col">
+            <div class="kanban-col-header">
+              <span class="kanban-col-title">📌 Assigned / To Do</span>
+              <span class="kanban-col-badge" id="countPending">0</span>
+            </div>
+            <div class="kanban-cards-stack" id="colPending"></div>
+          </div>
+
+          <!-- Column 2: In Progress -->
+          <div class="glass-primary kanban-col">
+            <div class="kanban-col-header">
+              <span class="kanban-col-title">⚙ In Progress</span>
+              <span class="kanban-col-badge" id="countInProgress">0</span>
+            </div>
+            <div class="kanban-cards-stack" id="colInProgress"></div>
+          </div>
+
+          <!-- Column 3: Under Review (Submissions) -->
+          <div class="glass-primary kanban-col" style="border: 1px solid rgba(249, 115, 22, 0.35);">
+            <div class="kanban-col-header">
+              <span class="kanban-col-title" style="color: var(--color-brand-orange);">🔍 Under Review</span>
+              <span class="kanban-col-badge" style="background: var(--color-brand-orange-soft); color: var(--color-brand-orange);" id="countReview">0</span>
+            </div>
+            <div class="kanban-cards-stack" id="colReview"></div>
+          </div>
+
+          <!-- Column 4: Approved & Closed -->
+          <div class="glass-primary kanban-col">
+            <div class="kanban-col-header">
+              <span class="kanban-col-title" style="color: var(--color-brand-emerald);">✓ Approved & Closed</span>
+              <span class="kanban-col-badge" style="background: rgba(16, 185, 129, 0.12); color: var(--color-brand-emerald);" id="countCompleted">0</span>
+            </div>
+            <div class="kanban-cards-stack" id="colCompleted"></div>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ======== 3. PROJECTS & DEPARTMENTS VIEW ======== -->
+      <section id="view-projects" class="portal-view" style="display: none;">
+        <div class="row-between" style="margin-bottom: var(--spacing-md);">
+          <div>
+            <h2 style="font-family: var(--font-brand); margin-bottom: 4px;">Departments & Active Client Projects</h2>
+            <p style="color: var(--text-color-secondary);">Enterprise organizational chart and technical deliverables.</p>
+          </div>
+        </div>
+
+        <div class="grid grid-2" style="gap: var(--spacing-lg); margin-bottom: var(--spacing-lg);">
+          <!-- Software Development -->
+          <div class="glass-primary" style="padding: var(--spacing-lg); border-radius: var(--radius-card);">
+            <div class="row-between" style="margin-bottom: var(--spacing-sm);">
+              <span class="badge" style="background: var(--color-brand-orange-soft); color: var(--color-brand-orange);">Dept #01</span>
+              <span class="badge badge-success">5 Engineers</span>
+            </div>
+            <h3 style="font-family: var(--font-brand); margin-bottom: var(--spacing-xs);">Software & Web Engineering</h3>
+            <p style="color: var(--text-color-secondary); font-size: var(--text-sm); margin-bottom: var(--spacing-md);">
+              Department Head: <strong>Fatima Aliyu</strong>. High-scale CRM platforms, ERP backends, and fullstack cloud development.
+            </p>
+            <div class="glass-thin" style="padding: var(--spacing-sm); border-radius: 14px;">
+              <div class="row-between" style="font-size: var(--text-xs); margin-bottom: 4px;">
+                <span>Active Project: Custom Enterprise ERP Suite</span>
+                <strong>75% Complete</strong>
+              </div>
+              <div style="height: 6px; background: rgba(0,0,0,0.06); border-radius: 3px; overflow: hidden;">
+                <div style="width: 75%; height: 100%; background: var(--color-brand-orange); border-radius: 3px;"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- AI & Automation -->
+          <div class="glass-primary" style="padding: var(--spacing-lg); border-radius: var(--radius-card);">
+            <div class="row-between" style="margin-bottom: var(--spacing-sm);">
+              <span class="badge" style="background: rgba(59,130,246,0.12); color: #3b82f6;">Dept #02</span>
+              <span class="badge badge-success">3 Specialists</span>
+            </div>
+            <h3 style="font-family: var(--font-brand); margin-bottom: var(--spacing-xs);">AI, Automation & Systems</h3>
+            <p style="color: var(--text-color-secondary); font-size: var(--text-sm); margin-bottom: var(--spacing-md);">
+              Department Head: <strong>Dr. Aminu Kano</strong>. Workflow automation, LLM integrations, document verification, and cloud DevOps.
+            </p>
+            <div class="glass-thin" style="padding: var(--spacing-sm); border-radius: 14px;">
+              <div class="row-between" style="font-size: var(--text-xs); margin-bottom: 4px;">
+                <span>Active Project: Intelligent Invoicing Bot</span>
+                <strong>90% Complete</strong>
+              </div>
+              <div style="height: 6px; background: rgba(0,0,0,0.06); border-radius: 3px; overflow: hidden;">
+                <div style="width: 90%; height: 100%; background: #3b82f6; border-radius: 3px;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Team & Staff Directory Section -->
+        <div class="glass-primary" style="padding: var(--spacing-lg); border-radius: var(--radius-card); margin-top: var(--spacing-lg);">
+          <div class="row-between" style="margin-bottom: var(--spacing-md); flex-wrap: wrap; gap: var(--spacing-sm);">
+            <div>
+              <h3 style="font-family: var(--font-brand); margin-bottom: 2px;">Company Staff Directory</h3>
+              <p style="color: var(--text-color-secondary); font-size: var(--text-sm);">Active personnel across all departments.</p>
+            </div>
+            <button class="btn btn-brand btn-pill" id="btnOnboardInProjects" onclick="openAddEmployeeModal()" style="display: none;">
+              👤 + Onboard New Employee
+            </button>
+          </div>
+          <div class="grid grid-2" style="gap: var(--spacing-sm);" id="teamRosterContainer">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ======== 4. LIVE MEETINGS & MINUTES VIEW ======== -->
+      <section id="view-meetings" class="portal-view" style="display: none;">
+        <div class="row-between" style="margin-bottom: var(--spacing-md); flex-wrap: wrap; gap: var(--spacing-sm);">
+          <div>
+            <h2 style="font-family: var(--font-brand); margin-bottom: 4px;">Live Meetings & Official Minutes</h2>
+            <p style="color: var(--text-color-secondary);">General, departmental, and one-on-one sessions with Google Meet links and attendance tracking.</p>
+          </div>
+          <button class="btn btn-brand btn-pill" onclick="openScheduleMeetingModal()">+ Schedule Meeting</button>
+        </div>
+
+        <div class="grid grid-2" style="gap: var(--spacing-md);" id="meetingsContainer">
+          <!-- Rendered via JS -->
+        </div>
+      </section>
+
+
+      <!-- ======== 5. FINANCE & PAYSTACK VIEW ======== -->
+      <section id="view-finance" class="portal-view" style="display: none;">
+        <div class="row-between" style="margin-bottom: var(--spacing-md); flex-wrap: wrap; gap: var(--spacing-sm);">
+          <div>
+            <h2 style="font-family: var(--font-brand); margin-bottom: 4px;">Company Finance & Paystack Gateway</h2>
+            <p style="color: var(--text-color-secondary);">Restricted ledger for salaries, contractor disbursements, and vendor payments.</p>
+          </div>
+          <div class="row" style="gap: var(--spacing-sm);">
+            <div class="paystack-secure-badge">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              <span>Paystack Secured</span>
+            </div>
+            <button class="btn btn-brand btn-pill" onclick="openPaymentModal()">+ Disburse Payment</button>
+          </div>
+        </div>
+
+        <!-- Finance Balances in Liquid Glass -->
+        <div class="grid grid-3" style="gap: var(--spacing-md); margin-bottom: var(--spacing-lg);">
+          <div class="glass-primary" style="padding: var(--spacing-md); border-radius: var(--radius-card);">
+            <span class="stat-title">Operational Treasury</span>
+            <div style="font-size: var(--text-3xl); font-weight: var(--weight-bold); font-family: var(--font-brand); margin: 6px 0; color: var(--color-brand-navy);">
+              ₦4,850,000.00
+            </div>
+            <small style="color: var(--color-brand-emerald);">✓ Reconciled with Zenith Corporate</small>
+          </div>
+          <div class="glass-primary" style="padding: var(--spacing-md); border-radius: var(--radius-card);">
+            <span class="stat-title">Month-To-Date Disbursements</span>
+            <div style="font-size: var(--text-3xl); font-weight: var(--weight-bold); font-family: var(--font-brand); margin: 6px 0; color: var(--color-brand-orange);">
+              ₦1,420,000.00
+            </div>
+            <small style="color: var(--text-color-secondary);">Salaries, cloud hosting, contractor payouts</small>
+          </div>
+          <div class="glass-primary" style="padding: var(--spacing-md); border-radius: var(--radius-card);">
+            <span class="stat-title">Pending Approvals</span>
+            <div style="font-size: var(--text-3xl); font-weight: var(--weight-bold); font-family: var(--font-brand); margin: 6px 0; color: #3b82f6;">
+              ₦180,000.00
+            </div>
+            <small style="color: var(--text-color-secondary);">2 voucher requests awaiting CEO review</small>
+          </div>
+        </div>
+
+        <!-- Transactions Ledger Table -->
+        <div class="glass-primary" style="padding: var(--spacing-md); border-radius: var(--radius-card);">
+          <h4 style="margin-bottom: var(--spacing-md); font-family: var(--font-brand);">Payment & Transaction Ledger</h4>
+          <div style="overflow-x: auto;">
+            <table class="table" style="width: 100%; border-collapse: collapse;">
+              <thead>
+                <tr>
+                  <th style="text-align: left; padding: 10px; font-size: var(--text-xs); color: var(--text-color-secondary);">REFERENCE</th>
+                  <th style="text-align: left; padding: 10px; font-size: var(--text-xs); color: var(--text-color-secondary);">RECIPIENT / PURPOSE</th>
+                  <th style="text-align: left; padding: 10px; font-size: var(--text-xs); color: var(--text-color-secondary);">AMOUNT (NGN)</th>
+                  <th style="text-align: left; padding: 10px; font-size: var(--text-xs); color: var(--text-color-secondary);">CHANNEL</th>
+                  <th style="text-align: left; padding: 10px; font-size: var(--text-xs); color: var(--text-color-secondary);">STATUS</th>
+                  <th style="text-align: left; padding: 10px; font-size: var(--text-xs); color: var(--text-color-secondary);">TIMESTAMP</th>
+                </tr>
+              </thead>
+              <tbody id="paymentLedgerBody">
+                <!-- Rendered via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ======== 6. ANNOUNCEMENTS & BULLETINS VIEW ======== -->
+      <section id="view-announcements" class="portal-view" style="display: none;">
+        <div class="row-between" style="margin-bottom: var(--spacing-md);">
+          <div>
+            <h2 style="font-family: var(--font-brand); margin-bottom: 4px;">Company Announcements & Policy Acknowledgment</h2>
+            <p style="color: var(--text-color-secondary);">Critical directives require explicit digital acknowledgment signature.</p>
+          </div>
+        </div>
+
+        <div class="stack stack-md" id="announcementsList">
+          <!-- Rendered via JS -->
+        </div>
+      </section>
+
+
+      <!-- ======== 7. AUDIT LOGS VIEW (CEO / Admin Only) ======== -->
+      <section id="view-audit" class="portal-view" style="display: none;">
+        <div class="row-between" style="margin-bottom: var(--spacing-md);">
+          <div>
+            <h2 style="font-family: var(--font-brand); margin-bottom: 4px;">Administrative Security Audit Trail</h2>
+            <p style="color: var(--text-color-secondary);">Immutable chronological log of authentications, role delegations, task reviews, and financial transactions.</p>
+          </div>
+        </div>
+
+        <div class="glass-primary" style="padding: var(--spacing-md); border-radius: var(--radius-card);">
+          <div style="overflow-x: auto;">
+            <table class="table" style="width: 100%;">
+              <thead>
+                <tr>
+                  <th style="text-align: left; padding: 10px; font-size: var(--text-xs);">ACTION</th>
+                  <th style="text-align: left; padding: 10px; font-size: var(--text-xs);">OPERATOR</th>
+                  <th style="text-align: left; padding: 10px; font-size: var(--text-xs);">TARGET ENTITY</th>
+                  <th style="text-align: left; padding: 10px; font-size: var(--text-xs);">METADATA</th>
+                  <th style="text-align: left; padding: 10px; font-size: var(--text-xs);">TIMESTAMP</th>
+                </tr>
+              </thead>
+              <tbody id="auditLogsBody">
+                <!-- Rendered via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- ============================================================
+         PORTAL FOOTER
+         ============================================================ -->
+    <footer id="portalFooter" style="display: none; margin-top: auto; padding: var(--spacing-lg) var(--spacing-md); text-align: center; color: var(--text-color-secondary); font-size: var(--text-xs); border-top: 1px solid var(--border-divider);">
+      <div>© 2026 <strong>ELMUAZ TECHNOLOGIES LTD</strong>. All rights reserved. Building Smart Digital Solutions.</div>
+      <div style="margin-top: 4px;">Protected by Supabase RBAC & 256-bit TLS Encryption. Liquid Glass Design System.</div>
+    </footer>
+
+  </div>
+
+
+  <!-- ============================================================
+       MODALS (Liquid Glass Elevated Dialogs)
+       ============================================================ -->
+
+  <!-- 1. Task Detail & 8-Stage Review Modal -->
+  <div id="taskModal" class="modal-overlay" style="display: none;" onclick="if(event.target===this)closeTaskModal()">
+    <div class="modal modal-lg">
+      <div class="modal-header">
+        <div>
+          <span class="badge" id="modalTaskPriority">High Priority</span>
+          <h4 class="modal-title" id="modalTaskTitle" style="margin-top: 6px; font-family: var(--font-brand);">Task Title</h4>
+        </div>
+        <button class="btn btn-ghost btn-icon btn-pill" onclick="closeTaskModal()">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- 8-Stage Workflow Stepper -->
+        <div class="workflow-stepper" id="modalWorkflowStepper">
+          <div class="workflow-step completed" id="step-create"><div class="workflow-step-circle">1</div><div class="workflow-step-label">Created</div></div>
+          <div class="workflow-step completed" id="step-assign"><div class="workflow-step-circle">2</div><div class="workflow-step-label">Assigned</div></div>
+          <div class="workflow-step active" id="step-work"><div class="workflow-step-circle">3</div><div class="workflow-step-label">Working</div></div>
+          <div class="workflow-step" id="step-submit"><div class="workflow-step-circle">4</div><div class="workflow-step-label">Submit</div></div>
+          <div class="workflow-step" id="step-review"><div class="workflow-step-circle">5</div><div class="workflow-step-label">Review</div></div>
+          <div class="workflow-step" id="step-decision"><div class="workflow-step-circle">6</div><div class="workflow-step-label">Decision</div></div>
+          <div class="workflow-step" id="step-correction"><div class="workflow-step-circle">7</div><div class="workflow-step-label">Correct</div></div>
+          <div class="workflow-step" id="step-close"><div class="workflow-step-circle">8</div><div class="workflow-step-label">Closed</div></div>
+        </div>
+
+        <div class="stack stack-sm" style="margin-bottom: var(--spacing-md);">
+          <div class="row-between" style="font-size: var(--text-xs); color: var(--text-color-secondary);">
+            <span>Assignee: <strong id="modalTaskAssignee">Usman Bello</strong></span>
+            <span>Deadline: <strong id="modalTaskDeadline">Tomorrow, 5:00 PM</strong></span>
+          </div>
+          <div style="background: rgba(0,0,0,0.02); padding: var(--spacing-sm); border-radius: 12px; border: 1px solid var(--border-divider);">
+            <div style="font-weight: var(--weight-semibold); font-size: var(--text-xs); margin-bottom: 4px;">Task Instructions:</div>
+            <p id="modalTaskInstructions" style="font-size: var(--text-sm); line-height: 1.5; color: var(--text-color-primary);"></p>
+          </div>
+        </div>
+
+        <!-- Deliverable & Comments Area -->
+        <div class="stack stack-sm" style="margin-bottom: var(--spacing-md);">
+          <h5 style="margin: 0;">Deliverables & Attachments:</h5>
+          <div id="modalDeliverables" class="glass-thin" style="padding: var(--spacing-sm); border-radius: 12px;">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+
+        <!-- Submission / Review Form -->
+        <div id="taskActionZone" class="glass-primary" style="padding: var(--spacing-sm); border-radius: 14px;">
+          <!-- Dynamic Action Buttons depending on role and task stage -->
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeTaskModal()">Close</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- 2. Create Task Modal -->
+  <div id="createTaskModal" class="modal-overlay" style="display: none;" onclick="if(event.target===this)closeCreateTaskModal()">
+    <div class="modal modal-md">
+      <div class="modal-header">
+        <h4 class="modal-title" style="font-family: var(--font-brand);">Create New Task Assignment</h4>
+        <button class="btn btn-ghost btn-icon btn-pill" onclick="closeCreateTaskModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <form id="createTaskForm" onsubmit="handleCreateTask(event)">
+          <div class="stack stack-sm">
+            <div>
+              <label class="label">Task Title</label>
+              <input type="text" id="newTaskTitle" class="input" placeholder="e.g. Build authentication middleware for EIMS" required>
+            </div>
+            <div class="grid grid-2" style="gap: var(--spacing-sm);">
+              <div>
+                <label class="label">Priority Level</label>
+                <select id="newTaskPriority" class="select">
+                  <option value="medium">Medium</option>
+                  <option value="high">High</option>
+                  <option value="urgent">Urgent</option>
+                  <option value="low">Low</option>
+                </select>
+              </div>
+              <div>
+                <label class="label">Assign To</label>
+                <select id="newTaskAssignee" class="select">
+                  <option value="Usman Bello">Usman Bello (Software Dev)</option>
+                  <option value="Fatima Aliyu">Fatima Aliyu (Engineering Lead)</option>
+                  <option value="Aisha Ibrahim">Aisha Ibrahim (Finance)</option>
+                  <option value="Mustapha Garba">Mustapha Garba (QA / Test)</option>
+                </select>
+              </div>
+            </div>
+            <div>
+              <label class="label">Deadline</label>
+              <input type="date" id="newTaskDeadline" class="input">
+            </div>
+            <div>
+              <label class="label">Detailed Instructions</label>
+              <textarea id="newTaskInstructions" class="textarea" rows="3" placeholder="Provide full implementation parameters, file requirements, and expected outcome..." required></textarea>
+            </div>
+            <div class="modal-footer" style="padding-top: var(--spacing-sm); margin-top: 0;">
+              <button type="button" class="btn btn-secondary" onclick="closeCreateTaskModal()">Cancel</button>
+              <button type="submit" class="btn btn-brand">Assign & Dispatch Task</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- 3. Paystack Payment Simulation Modal -->
+  <div id="paymentModal" class="modal-overlay" style="display: none;" onclick="if(event.target===this)closePaymentModal()">
+    <div class="modal modal-md">
+      <div class="modal-header">
+        <div>
+          <div class="paystack-secure-badge" style="margin-bottom: 4px;">⚡ Paystack Direct Gateway</div>
+          <h4 class="modal-title" style="font-family: var(--font-brand);">Disburse Corporate Payment</h4>
+        </div>
+        <button class="btn btn-ghost btn-icon btn-pill" onclick="closePaymentModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <form id="paymentForm" onsubmit="handlePaystackDisbursement(event)">
+          <div class="stack stack-sm">
+            <div>
+              <label class="label">Payment Type</label>
+              <select id="payType" class="select">
+                <option value="salary">Employee Monthly Salary</option>
+                <option value="contract_payment">Contractor Deliverable Payment</option>
+                <option value="vendor_expense">Cloud & Infrastructure Expense</option>
+                <option value="bonus">Performance Bonus</option>
+              </select>
+            </div>
+            <div>
+              <label class="label">Beneficiary Name</label>
+              <input type="text" id="payRecipient" class="input" placeholder="e.g. Usman Bello" value="Usman Bello" required>
+            </div>
+            <div>
+              <label class="label">Amount (NGN ₦)</label>
+              <input type="number" id="payAmount" class="input" placeholder="250000" min="1000" step="1000" value="250000" required>
+            </div>
+            <div>
+              <label class="label">Disbursement Note / Voucher Memo</label>
+              <input type="text" id="payMemo" class="input" placeholder="e.g. Milestone 2 completion payout" value="Sprint 3 software milestone disbursement" required>
+            </div>
+            <div style="background: rgba(0, 195, 245, 0.05); border: 1px solid rgba(0, 195, 245, 0.2); padding: 10px; border-radius: 12px; font-size: 11px; color: var(--text-color-secondary);">
+              🔒 <strong>Paystack 256-bit TLS Gateway:</strong> Fund transfer will be routed directly via NIBSS Instant Payments with automated webhook confirmation.
+            </div>
+            <div class="modal-footer" style="padding-top: var(--spacing-sm); margin-top: 0;">
+              <button type="button" class="btn btn-secondary" onclick="closePaymentModal()">Cancel</button>
+              <button type="submit" class="btn btn-brand" id="paySubmitBtn">Authorize & Disburse ₦250,000</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- 4. Schedule Meeting Modal -->
+  <div id="scheduleMeetingModal" class="modal-overlay" style="display: none;" onclick="if(event.target===this)closeScheduleMeetingModal()">
+    <div class="modal modal-md">
+      <div class="modal-header">
+        <h4 class="modal-title" style="font-family: var(--font-brand);">Schedule Team Meeting</h4>
+        <button class="btn btn-ghost btn-icon btn-pill" onclick="closeScheduleMeetingModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <form onsubmit="handleScheduleMeeting(event)">
+          <div class="stack stack-sm">
+            <div>
+              <label class="label">Meeting Topic</label>
+              <input type="text" id="meetingTopic" class="input" placeholder="e.g. EIMS Core Review & Sprint Planning" required>
+            </div>
+            <div class="grid grid-2" style="gap: var(--spacing-sm);">
+              <div>
+                <label class="label">Meeting Type</label>
+                <select id="meetingType" class="select">
+                  <option value="general">All-Hands (Company-Wide)</option>
+                  <option value="department">Engineering Department</option>
+                  <option value="specific">One-on-One</option>
+                </select>
+              </div>
+              <div>
+                <label class="label">Time</label>
+                <input type="time" id="meetingTime" class="input" value="15:00" required>
+              </div>
+            </div>
+            <div>
+              <label class="label">Agenda & Topics</label>
+              <textarea id="meetingAgenda" class="textarea" rows="2" placeholder="Brief topics to cover during the session..." required></textarea>
+            </div>
+            <div class="modal-footer" style="padding-top: var(--spacing-sm); margin-top: 0;">
+              <button type="button" class="btn btn-secondary" onclick="closeScheduleMeetingModal()">Cancel</button>
+              <button type="submit" class="btn btn-brand">Generate Google Meet & Invite</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- 5. Google Workspace Account Chooser Modal -->
+  <div id="googleAccountPickerModal" class="modal-overlay" style="display: none;" onclick="if(event.target===this)closeGooglePickerModal()">
+    <div class="modal modal-md">
+      <div class="modal-header">
+        <div class="row" style="gap: 10px;">
+          <svg width="24" height="24" viewBox="0 0 24 24">
+            <path fill="#4285F4" d="M23.745 12.27c0-.7-.06-1.4-.19-2.07H12v4.51h6.6c-.29 1.52-1.14 2.82-2.4 3.68v3.05h3.88c2.27-2.09 3.665-5.17 3.665-9.17z"/>
+            <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.88-3.05c-1.08.72-2.45 1.16-4.05 1.16-3.12 0-5.77-2.1-6.72-4.93H1.25v3.15C3.26 21.36 7.33 24 12 24z"/>
+            <path fill="#FBBC05" d="M5.28 14.27c-.25-.72-.38-1.49-.38-2.27s.13-1.55.38-2.27V6.58H1.25C.45 8.18 0 10.03 0 12s.45 3.82 1.25 5.42l4.03-3.15z"/>
+            <path fill="#EA4335" d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.33 0 3.26 2.64 1.25 6.58l4.03 3.15c.95-2.83 3.6-4.98 6.72-4.98z"/>
+          </svg>
+          <div>
+            <h4 class="modal-title" style="font-family: var(--font-brand);">Sign in with Google</h4>
+            <div style="font-size: 11px; color: var(--text-color-secondary);">Choose an authorized @elmuaztech.com.ng Workspace account</div>
+          </div>
+        </div>
+        <button class="btn btn-ghost btn-icon btn-pill" onclick="closeGooglePickerModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="google-account-item" onclick="selectGoogleAccount('ceo@elmuaztech.com.ng')">
+          <div class="avatar avatar-md" style="background: #0B132B; color: #fff; font-weight: 700;">AM</div>
+          <div style="flex: 1;">
+            <div style="font-weight: 600; font-size: 13px;">Alhaji Mu'azu <span class="badge badge-brand" style="font-size: 9px; margin-left: 4px;">CEO Active</span></div>
+            <div style="font-size: 12px; color: var(--text-color-secondary);">ceo@elmuaztech.com.ng</div>
+          </div>
+          <span style="font-size: 12px; color: var(--color-brand-orange);">Select →</span>
+        </div>
+
+        <div class="google-account-item" onclick="selectGoogleAccount('usman@elmuaztech.com.ng')">
+          <div class="avatar avatar-md" style="background: var(--color-brand-orange-soft); color: var(--color-brand-orange); font-weight: 700;">UB</div>
+          <div style="flex: 1;">
+            <div style="font-weight: 600; font-size: 13px;">Usman Bello <span class="badge badge-success" style="font-size: 9px; margin-left: 4px;">Engineer Active</span></div>
+            <div style="font-size: 12px; color: var(--text-color-secondary);">usman@elmuaztech.com.ng</div>
+          </div>
+          <span style="font-size: 12px; color: var(--color-brand-orange);">Select →</span>
+        </div>
+
+        <div class="google-account-item" onclick="selectGoogleAccount('ibrahim.sani@elmuaztech.com.ng')">
+          <div class="avatar avatar-md" style="background: rgba(245, 158, 11, 0.15); color: #d97706; font-weight: 700;">IS</div>
+          <div style="flex: 1;">
+            <div style="font-weight: 600; font-size: 13px;">Ibrahim Sani <span class="badge badge-warning" style="font-size: 9px; margin-left: 4px;">Pending CEO Clearance</span></div>
+            <div style="font-size: 12px; color: var(--text-color-secondary);">ibrahim.sani@elmuaztech.com.ng</div>
+          </div>
+          <span style="font-size: 12px; color: #d97706;">Check Status →</span>
+        </div>
+
+        <div class="google-account-item" onclick="handleCustomGoogleLogin()" style="border-style: dashed; background: transparent;">
+          <div class="avatar avatar-md" style="background: rgba(0,0,0,0.05); color: var(--text-color-primary);">+</div>
+          <div style="flex: 1;">
+            <div style="font-weight: 600; font-size: 13px;">Use another Google Workspace account</div>
+            <div style="font-size: 11px; color: var(--text-color-secondary);">Sign in with a different corporate email</div>
+          </div>
+          <span style="font-size: 12px; color: var(--text-color-secondary);">Enter ↗</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- 6. CEO Add New Employee Modal -->
+  <div id="addEmployeeModal" class="modal-overlay" style="display: none;" onclick="if(event.target===this)closeAddEmployeeModal()">
+    <div class="modal modal-md">
+      <div class="modal-header">
+        <div>
+          <div class="badge badge-brand" style="margin-bottom: 4px;">👑 Executive Onboarding</div>
+          <h4 class="modal-title" style="font-family: var(--font-brand);">Onboard New Employee</h4>
+        </div>
+        <button class="btn btn-ghost btn-icon btn-pill" onclick="closeAddEmployeeModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <form onsubmit="handleCreateEmployee(event)">
+          <div class="stack stack-sm">
+            <div>
+              <label class="label">Full Legal Name</label>
+              <input type="text" id="newEmpName" class="input" placeholder="e.g. Maryam Abubakar" required>
+            </div>
+            <div>
+              <label class="label">Official Corporate Email</label>
+              <input type="email" id="newEmpEmail" class="input" placeholder="e.g. maryam@elmuaztech.com.ng" required>
+            </div>
+            <div class="grid grid-2" style="gap: var(--spacing-sm);">
+              <div>
+                <label class="label">Department</label>
+                <select id="newEmpDept" class="select" required>
+                  <option value="Engineering">Software Engineering</option>
+                  <option value="AI Solutions">AI & Automation</option>
+                  <option value="Finance">Finance & Treasury</option>
+                  <option value="Operations">Operations</option>
+                  <option value="QA & Testing">DevOps & QA</option>
+                </select>
+              </div>
+              <div>
+                <label class="label">Access Role</label>
+                <select id="newEmpRole" class="select" required>
+                  <option value="employee">Employee (Standard Access)</option>
+                  <option value="department_head">Department Head (Review Authority)</option>
+                  <option value="accountant">Accountant (Paystack & Treasury)</option>
+                </select>
+              </div>
+            </div>
+            <div class="grid grid-2" style="gap: var(--spacing-sm);">
+              <div>
+                <label class="label">Designation / Job Title</label>
+                <input type="text" id="newEmpTitle" class="input" placeholder="e.g. Cloud Security Specialist" required>
+              </div>
+              <div>
+                <label class="label">Monthly Base Salary (₦)</label>
+                <input type="number" id="newEmpSalary" class="input" placeholder="450000" min="50000" step="10000" value="450000" required>
+              </div>
+            </div>
+            <div>
+              <label class="label">Initial Passkey</label>
+              <input type="password" id="newEmpPassword" class="input" value="password123" placeholder="Default: password123" required>
+            </div>
+            <div style="background: rgba(16, 185, 129, 0.08); border: 1px solid rgba(16, 185, 129, 0.25); padding: 10px 12px; border-radius: 12px; font-size: 11px; color: var(--text-color-secondary);">
+              ✓ <strong>CEO Direct Authorization:</strong> Because you are onboarding this employee directly as CEO, their profile will be immediately activated with no approval queue delay.
+            </div>
+            <div class="modal-footer" style="padding-top: var(--spacing-sm); margin-top: 0;">
+              <button type="button" class="btn btn-secondary" onclick="closeAddEmployeeModal()">Cancel</button>
+              <button type="submit" class="btn btn-brand">Onboard & Activate Staff →</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- 7. CEO Edit Employee Profile & Compensation Modal -->
+  <div id="editEmployeeModal" class="modal-overlay" style="display: none;" onclick="if(event.target===this)closeEditEmployeeModal()">
+    <div class="modal modal-md">
+      <div class="modal-header">
+        <div>
+          <div class="badge badge-brand" style="margin-bottom: 4px;">👑 Executive Administration</div>
+          <h4 class="modal-title" style="font-family: var(--font-brand);">Edit Staff Profile & Compensation</h4>
+        </div>
+        <button class="btn btn-ghost btn-icon btn-pill" onclick="closeEditEmployeeModal()">✕</button>
+      </div>
+      <div class="modal-body">
+        <form onsubmit="handleSaveEmployeeEdit(event)">
+          <input type="hidden" id="editStaffId">
+          <div class="stack stack-sm">
+            <div>
+              <label class="label">Full Legal Name</label>
+              <input type="text" id="editStaffName" class="input" required>
+            </div>
+            <div>
+              <label class="label">Official Corporate Email</label>
+              <input type="email" id="editStaffEmail" class="input" required>
+            </div>
+            <div class="grid grid-2" style="gap: var(--spacing-sm);">
+              <div>
+                <label class="label">Department</label>
+                <select id="editStaffDept" class="select" required>
+                  <option value="Software Engineering">Software Engineering</option>
+                  <option value="AI & Automation">AI & Automation</option>
+                  <option value="Finance & Accounts">Finance & Accounts</option>
+                  <option value="Operations">Operations</option>
+                  <option value="DevOps & QA">DevOps & QA</option>
+                  <option value="Executive Management">Executive Management</option>
+                </select>
+              </div>
+              <div>
+                <label class="label">System Access Role</label>
+                <select id="editStaffRole" class="select" required>
+                  <option value="employee">Employee (Standard Access)</option>
+                  <option value="department_head">Department Head (Review Authority)</option>
+                  <option value="accountant">Accountant (Paystack & Treasury)</option>
+                  <option value="ceo">CEO / Admin (Executive Suite)</option>
+                </select>
+              </div>
+            </div>
+            <div class="grid grid-2" style="gap: var(--spacing-sm);">
+              <div>
+                <label class="label">Job Title / Designation</label>
+                <input type="text" id="editStaffTitle" class="input" required>
+              </div>
+              <div>
+                <label class="label">Monthly Base Salary (₦)</label>
+                <input type="number" id="editStaffSalary" class="input" min="0" step="5000" required>
+              </div>
+            </div>
+            <div>
+              <label class="label">Employment Status</label>
+              <select id="editStaffStatus" class="select" required>
+                <option value="active">Active Staff (Full Access)</option>
+                <option value="probation">Probationary Period</option>
+                <option value="on_leave">On Approved Leave</option>
+                <option value="suspended">Suspended Access</option>
+                <option value="terminated">Terminated (No Access)</option>
+              </select>
+            </div>
+            <div style="background: rgba(249, 115, 22, 0.08); border: 1px solid rgba(249, 115, 22, 0.25); padding: 10px 12px; border-radius: 12px; font-size: 11px; color: var(--text-color-secondary);">
+              🔒 <strong>Executive Audit:</strong> Changes to department, role, or compensation are recorded with cryptographic timestamps in the corporate security audit ledger.
+            </div>
+            <div class="modal-footer" style="padding-top: var(--spacing-sm); margin-top: 0;">
+              <button type="button" class="btn btn-secondary" onclick="closeEditEmployeeModal()">Cancel</button>
+              <button type="submit" class="btn btn-brand">Save Changes →</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- 8. Toast Notification Component -->
+  <div id="toastContainer" style="position: fixed; bottom: var(--spacing-lg); right: var(--spacing-lg); z-index: var(--z-toast); display: flex; flex-direction: column; gap: var(--spacing-xs); pointer-events: none;"></div>
+
+  <!-- Scripts & Centralized API Service Layer -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="src/js/config.js"></script>
+  <script src="src/js/supabase-client.js"></script>
+  <script src="src/js/api-client.js"></script>
+  <script src="src/js/auth-session.js"></script>
+  <script src="src/js/ui-feedback.js"></script>
+  <script src="src/js/api-services.js"></script>
+  <script src="src/js/portal.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,10 @@
+/* ============================================================
+   LIQUID GLASS DESIGN SYSTEM — Master Entry Point
+   ============================================================
+   Import this single file to get the full design system.
+   Order matters: tokens → base → components
+   ============================================================ */
+
+@import url('./design-tokens.css');
+@import url('./base.css');
+@import url('./components.css');
