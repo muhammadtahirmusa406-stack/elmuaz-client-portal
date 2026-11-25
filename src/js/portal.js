@@ -1,4 +1,4 @@
-/**
+﻿/**
  * ============================================================
  * ELMUAZ TECHNOLOGIES LTD
  * Internal Company Management System (EIMS) — Client Controller
@@ -586,14 +586,23 @@ async function loadBackendTasks() {
             throw new Error(response?.message || 'Unexpected task list response.');
         }
 
-        state.tasks = response.tasks.map(task => ({
-            ...task,
-            status: task.stage || task.status,
-            instructions: task.description || '',
-            deadline: task.due_date || '',
-            deliverable: task.deliverable_url || '',
-            progress: getTaskProgress(task.stage)
-        }));
+        state.tasks = response.tasks.map(task => {
+        const submissions = Array.isArray(task.task_submissions) ? task.task_submissions : [];
+        const sortedSubmissions = submissions.slice().sort((a, b) => new Date(b.submitted_at || 0) - new Date(a.submitted_at || 0));
+        const latestReviewed = sortedSubmissions.find(s => s.review_comment);
+        const reviewComment = latestReviewed?.review_comment || '';
+
+        return {
+          ...task,
+          status: task.stage || task.status,
+          instructions: task.description || '',
+          deadline: task.due_date || '',
+          deliverable: task.deliverable_url || sortedSubmissions[0]?.submission_url || '',
+          submissions: sortedSubmissions,
+          review_comment: reviewComment,
+          progress: getTaskProgress(task.stage)
+        };
+      });
 
         renderKanbanBoard();
         renderDashboard();
@@ -1052,21 +1061,73 @@ function openTaskModal(taskId) {
     }
   });
 
-  // Render Deliverable
+  // Render Deliverable & Feedback
   const delivEl = document.getElementById('modalDeliverables');
+  let deliverableHtml = '';
+
   if (task.deliverable) {
-    delivEl.innerHTML = `
-      <div class="row-between">
+    deliverableHtml = `
+      <div class="row-between" style="margin-bottom: ${task.review_comment ? '10px' : '0'};">
         <div>
-          <span style="font-size: 11px; color: var(--text-color-secondary);">Work Deliverable URL / Pull Request:</span>
+          <span style="font-size: 11px; color: var(--text-color-secondary);">Latest Deliverable URL / Pull Request:</span>
           <div style="font-weight: 600; font-size: var(--text-sm);"><a href="${task.deliverable}" target="_blank" style="color: var(--color-brand-orange);">${task.deliverable}</a></div>
         </div>
         <span class="badge badge-success">Submitted</span>
       </div>
     `;
   } else {
-    delivEl.innerHTML = `<span style="font-size: var(--text-xs); color: var(--text-color-secondary);">No deliverables submitted yet for this stage.</span>`;
+    deliverableHtml = `<div style="font-size: var(--text-xs); color: var(--text-color-secondary); margin-bottom: ${task.review_comment ? '10px' : '0'};">No deliverables submitted yet for this stage.</div>`;
   }
+
+  let feedbackHtml = '';
+  if (task.review_comment) {
+    const isNeedsCorrection = task.status === 'needs_correction';
+    feedbackHtml = `
+      <div style="padding: 10px 14px; border-radius: 8px; background: ${isNeedsCorrection ? 'rgba(239, 68, 68, 0.12)' : 'rgba(59, 130, 246, 0.12)'}; border-left: 4px solid ${isNeedsCorrection ? '#ef4444' : '#3b82f6'}; margin-bottom: 12px;">
+        <div style="font-weight: 600; font-size: 12px; color: ${isNeedsCorrection ? '#ef4444' : '#3b82f6'}; margin-bottom: 4px;">
+          ${isNeedsCorrection ? '⚠️ Latest Feedback (Needs Correction):' : 'ℹ️ Reviewer Notes:'}
+        </div>
+        <div style="font-size: 13px; color: var(--text-color-primary); white-space: pre-wrap;">${task.review_comment}</div>
+      </div>
+    `;
+  }
+
+  let historyHtml = '';
+  const historyList = (task.submissions && task.submissions.length > 0) ? task.submissions : [];
+  if (historyList.length > 0) {
+    const items = historyList.map((sub, index) => {
+      const cycleNum = historyList.length - index;
+      const dateStr = sub.submitted_at ? new Date(sub.submitted_at).toLocaleString() : 'N/A';
+      const comment = sub.review_comment ? `<div style="font-size: 12px; color: var(--text-color-primary); margin-top: 4px; padding: 6px 10px; background: var(--bg-hover, rgba(255,255,255,0.05)); border-radius: 6px;"><strong>Reviewer:</strong> ${sub.review_comment}</div>` : '';
+      const url = sub.submission_url ? `<div style="font-size: 12px; margin-top: 2px;"><a href="${sub.submission_url}" target="_blank" style="color: var(--color-brand-orange);">${sub.submission_url}</a></div>` : '';
+      const content = sub.content ? `<div style="font-size: 12px; color: var(--text-color-secondary); margin-top: 2px;">${sub.content}</div>` : '';
+      
+      return `
+        <div style="padding: 8px 0; border-bottom: 1px solid var(--border-color, rgba(255,255,255,0.1));">
+          <div class="row-between" style="font-size: 11px;">
+            <span style="font-weight: 600; color: var(--color-brand-orange);">Round #${cycleNum}</span>
+            <span style="color: var(--text-color-secondary);">${dateStr}</span>
+          </div>
+          ${url}
+          ${content}
+          ${comment}
+        </div>
+      `;
+    }).join('');
+
+    historyHtml = `
+      <details style="margin-top: 10px; padding: 8px 12px; border-radius: 8px; background: var(--bg-surface-secondary, rgba(255,255,255,0.03)); border: 1px solid var(--border-color, rgba(255,255,255,0.08));">
+        <summary style="font-size: 12px; font-weight: 600; cursor: pointer; color: var(--text-color-secondary); user-select: none;">
+          📜 Submission & Review History (${historyList.length} ${historyList.length === 1 ? 'round' : 'rounds'})
+        </summary>
+        <div style="margin-top: 8px;">
+          ${items}
+        </div>
+      </details>
+    `;
+  }
+
+  delivEl.innerHTML = deliverableHtml + feedbackHtml + historyHtml;
 
   // Render Action Zone based on role and stage
   renderTaskActionZone(task);
@@ -1158,6 +1219,20 @@ const taskReviewRequestsInProgress = new Set();
 async function decideTask(taskId, decision) {
   const task = state.tasks.find(t => t.id === taskId);
   if (!task || !['approved', 'needs_correction'].includes(decision)) return;
+
+  let reviewComment = '';
+  if (decision === 'needs_correction') {
+    const userInput = prompt('Please specify what needs correction before returning this task:');
+    if (userInput === null) {
+      return; // Reviewer clicked Cancel
+    }
+    reviewComment = userInput.trim();
+    if (!reviewComment) {
+      showToast('Please provide a reason or instruction for the correction.');
+      return;
+    }
+  }
+
   if (taskReviewRequestsInProgress.has(taskId)) return;
   taskReviewRequestsInProgress.add(taskId);
 
@@ -1177,7 +1252,7 @@ async function decideTask(taskId, decision) {
       return;
     }
 
-    await window.TaskService.reviewTask(task.id, decision, '');
+    await window.TaskService.reviewTask(task.id, decision, reviewComment);
     await loadBackendTasks();
     logAuditAction(decision === 'approved' ? 'task.approved' : 'task.correction_requested', `Task review recorded: ${task.title}`, { taskId });
     showToast(decision === 'approved' ? '✓ Task approved.' : '↺ Task returned for correction.');
